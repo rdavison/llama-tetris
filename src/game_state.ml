@@ -19,22 +19,6 @@ let create () = {
   blocks        = [];
 }
 
-let slurp_events term =
-  (* TODO: Potentially inefficient *)
-  let rec loop acc =
-    let success () =
-      Lwt_unix.with_timeout cfg_poll_event_timeout
-      (fun () -> LTerm.read_event term) >>= fun x ->
-      loop (x :: acc)
-    in
-    let failure = function
-      | Lwt_unix.Timeout -> Lwt.return acc
-      | exn -> Lwt.fail exn
-    in
-    Lwt.catch success failure
-  in
-  loop []
-
 let poll_event term =
   let success () =
     Lwt_unix.with_timeout cfg_poll_event_timeout
@@ -46,6 +30,14 @@ let poll_event term =
     | exn -> Lwt.fail exn
   in
   Lwt.catch success failure
+
+let slurp_events term =
+  let rec aux acc =
+    poll_event term >>= function
+    | Some ev -> aux (ev :: acc)
+    | None -> Lwt.return (List.rev acc)
+  in
+  aux []
 
 let next state ~term =
   slurp_events term >>= function

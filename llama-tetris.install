@@ -39,4 +39,5 @@ bin: [
 ]
 doc: [
   "README"
+  "LICENSE"
 ]
