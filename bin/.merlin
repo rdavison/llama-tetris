@@ -1,0 +1,16 @@
+S .
+B ../_build/default/bin
+B ../_build/default/src
+PKG bytes
+PKG result
+PKG lwt
+PKG unix
+PKG lwt.log
+PKG bigarray
+PKG react
+PKG camomile
+PKG lwt.unix
+PKG lwt.react
+PKG zed
+PKG lambda-term
+PKG lwt.ppx

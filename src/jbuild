@@ -1,0 +1,5 @@
+(library
+ ((name        llama_tetris)
+  (public_name llama-tetris)
+  (libraries (unix lwt lwt.ppx lambda-term))
+  (preprocess no_preprocessing)))
