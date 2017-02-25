@@ -6,14 +6,13 @@ open Llama_tetris
 let () = Printexc.record_backtrace true
 
 let rec loop state term = 
-  Game_state.next state ~term >>= function
-  | Some next_state ->
+  Game_state.run state ~term >>= function
+  | { exit = true} -> return (print_endline "exiting")
+  | next_state ->
     begin
       print_endline "continue";
       loop next_state term
     end
-  | None ->
-    return (print_endline "exiting")
 
 let main () =
   Lwt_io.printl "press any key to exit" >>= fun () ->
